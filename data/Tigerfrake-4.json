@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Tigerfrake",
+  "risk": "2",
+  "title": "Non-compliance of the permitAndStake() function with the EIP-2612 specifications for the permit() function",
+  "issueId": 4,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/4"
+}
