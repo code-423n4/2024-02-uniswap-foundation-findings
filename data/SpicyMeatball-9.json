@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "SpicyMeatball",
+  "risk": "2",
+  "title": "Portion of the reward remains undistributed if the first staker arrives after notifyReward call ",
+  "issueId": 9,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/9"
+}
