@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Alchmy952",
+  "risk": "3",
+  "title": "Missing zero address check for beneficiary address can lead to loss of funds",
+  "issueId": 13,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/13"
+}
