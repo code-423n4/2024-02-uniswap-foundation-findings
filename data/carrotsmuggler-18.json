@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "carrotsmuggler",
+  "risk": "2",
+  "title": "Permit based function calls can be denied by frontrunning the call and using the signature.",
+  "issueId": 18,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/18"
+}
