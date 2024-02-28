@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "peanuts",
+  "risk": "2",
+  "title": "Claimer may pay more than intended if `PAYOUT_TOKEN` is changed before `claimFees()` is called",
+  "issueId": 39,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/39"
+}
