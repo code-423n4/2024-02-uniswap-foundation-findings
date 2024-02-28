@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "peanuts",
+  "risk": "3",
+  "title": "First depositor can manipulate the totalStaked variable and steal rewards",
+  "issueId": 37,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/37"
+}
