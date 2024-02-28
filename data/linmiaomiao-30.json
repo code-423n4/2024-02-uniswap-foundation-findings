@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "linmiaomiao",
+  "risk": "2",
+  "title": "Use token with tranfer fee as reward token will cause notifyRewardAmount and claimFee revert",
+  "issueId": 30,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/30"
+}
