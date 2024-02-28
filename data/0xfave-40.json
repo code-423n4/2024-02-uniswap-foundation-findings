@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xfave",
+  "risk": "2",
+  "title": "Malicious user can steal rewards from UNI stakers",
+  "issueId": 40,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/40"
+}
