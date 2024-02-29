@@ -83,11 +83,13 @@ The passthrough functions listed below have **_revertIfNotAdmin()** checks and w
 
 ## Recommendations
 
-The admin V3FactoryOwner carries numerous important abilities for the system. Consider implementing a two-step process for transferring ownership of the V3FactoryOwner contract.
+The admin of V3FactoryOwner carries numerous important abilities for the system. Consider implementing a two-step process for transferring ownership of the V3FactoryOwner contract.
 
 ## Conclusion
 
 Overall, the UniStaker protocol showcases a well-designed architecture, prioritizing simplicity and security in its implementation. Its primary strengths lie in its comprehensive testing, detailed documentation, and meticulous code design. Furthermore, it is strongly advised that the team persists in investing in security measures, including mitigation reviews, audits, and bug bounty programs, to uphold the project's security and reliability.
+
+
 
 
 
