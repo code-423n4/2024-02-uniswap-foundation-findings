@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "bareMetalExecution",
+  "risk": "3",
+  "title": "Lack of Check in claimReward Function Allows Unauthorized Reward Claiming",
+  "issueId": 49,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/49"
+}
