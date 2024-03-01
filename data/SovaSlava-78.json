@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "SovaSlava",
+  "risk": "2",
+  "title": "EIP712 signatures dont contains chain id and deadline params. and could be used on eth mainnet and fork chain",
+  "issueId": 78,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/78"
+}
