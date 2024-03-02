@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "stakeOnBehalf should transfer token from the caller instead of the depositor",
+  "issueId": 102,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/102"
+}
