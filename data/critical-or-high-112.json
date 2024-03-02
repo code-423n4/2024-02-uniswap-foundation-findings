@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "critical-or-high",
+  "risk": "3",
+  "title": "Reward distributed when totalStaked==0 is lost",
+  "issueId": 112,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/112"
+}
