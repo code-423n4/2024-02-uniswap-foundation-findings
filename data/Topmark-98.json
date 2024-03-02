@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "UniStaker Contract is exposed to ECDSA Nonce Reuse Attack",
+  "issueId": 98,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/98"
+}
