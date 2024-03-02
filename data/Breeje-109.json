@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Breeje",
+  "risk": "2",
+  "title": "Arbitrary User won't be able to stake on Behalf of Staker despite correct User Signature Intent",
+  "issueId": 109,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/109"
+}
