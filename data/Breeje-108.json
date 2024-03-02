@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Breeje",
+  "risk": "2",
+  "title": "An Edge Case not covered where Rewards for initial period will be lost forever",
+  "issueId": 108,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/108"
+}
