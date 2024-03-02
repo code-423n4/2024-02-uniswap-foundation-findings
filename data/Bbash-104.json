@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Bbash",
+  "risk": "2",
+  "title": "`permitAndStake` and `permitAndStakeMore` are allowed to be called by the permit creator only  ",
+  "issueId": 104,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/104"
+}
