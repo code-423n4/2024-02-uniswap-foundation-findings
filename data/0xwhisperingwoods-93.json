@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xwhisperingwoods",
+  "risk": "2",
+  "title": "Lack of proper initialization of `lastTimeRewardDistributed` in `UniStaker.sol` could allow arbitrary reward distribution or timestamp manipulation.",
+  "issueId": 93,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/93"
+}
