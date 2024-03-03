@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "VIELITE",
+  "risk": "2",
+  "title": "Future reward recipients risk missing notifications due to potential changes in notifiers.",
+  "issueId": 144,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/144"
+}
