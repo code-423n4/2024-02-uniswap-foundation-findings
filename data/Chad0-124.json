@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Chad0",
+  "risk": "3",
+  "title": "Inadequate checking on the beneficiary address introduces compliance risks of contaminating the protocol & users' addresses",
+  "issueId": 124,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/124"
+}
