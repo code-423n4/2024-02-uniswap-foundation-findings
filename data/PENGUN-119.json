@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "PENGUN",
+  "risk": "2",
+  "title": "Signatures for OnBehalf functions cannot be revoked, which can cause unintended behavior.",
+  "issueId": 119,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/119"
+}
