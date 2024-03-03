@@ -1,9 +1,14 @@
-# UniStaker Infrastructure Advanced Analysis Report
   
-## Introduction 
+ 
+      
+
+# 𝙐𝙣𝙞𝙎𝙩𝙖𝙠𝙚𝙧 𝙄𝙣𝙛𝙧𝙖𝙨𝙩𝙧𝙪𝙘𝙩𝙪𝙧𝙚 𝘼𝙙𝙫𝙖𝙣𝙘𝙚𝙙 𝘼𝙣𝙖𝙡𝙮𝙨𝙞𝙨 𝙍𝙚𝙥𝙤𝙧𝙩
+  
+
 
 ![Profile](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/unistaker.png?raw=true)
-       
+   
+## Introduction 📋    
 UniStaker is a system designed to integrate with the existing Uniswap v3 infrastructure, enabling users to stake their UNI tokens and earn rewards🔄 .This report offers a detailed analysis of the UniStaker infrastructure, a staking mechanism designed to empower Uniswap governance. It aims to identify potential risks, assess the codebase architecture and testing strategies, and highlight areas for improvement.
  
 ### Core Functionalities
@@ -18,7 +23,7 @@ UniStaker is a system designed to integrate with the existing Uniswap v3 infrast
 
 
 
-### Scope Contracts 
+### Scope Contracts 📁
 
 
 
@@ -34,7 +39,7 @@ UniStaker is a system designed to integrate with the existing Uniswap v3 infrast
 
 
                                
-## Architecture Diagrams 
+## Architecture Diagrams 📐
 
 ### 1 . Architecture of  UniStaker infrastructure
 
@@ -196,8 +201,8 @@ UniStaker is a system designed to integrate with the existing Uniswap v3 infrast
 
 
 
-## Codebase Analysis 
-### 1 . Contracts Overview 
+## Codebase Analysis 🔍
+### 1 . Contracts Overview 🔒
 #### 1. UniStaker (UniStaker.sol)
 The UniStaker contract serves as a proxy to Uniswap v3 pools, enabling users to stake their position NFTs and earn staking rewards. Key observations and recommendations include:
 
@@ -233,7 +238,7 @@ The DelegationSurrogate contract enables users to delegate their voting power to
 - Implement dynamic adjustment mechanism for DELEGATION_THRESHOLD to enhance flexibility and security.
 - Consider automating the _acceptDelegation function to avoid potential single points of failure🔄.
 
-#### 4. Interfaces
+#### 4. Interfaces 🔗
 Interfaces such as IERC20Delegates, INotifiableRewardReceiver, IUniswapV3FactoryOwnerActions, and IUniswapV3PoolOwnerActions are used in the UniStaker infrastructure. Key observations and recommendations include:
 
 **Observations**
@@ -244,7 +249,7 @@ Interfaces such as IERC20Delegates, INotifiableRewardReceiver, IUniswapV3Factory
 - Ensure proper decentralization of Uniswap v3 factory and pool management to mitigate centralization risks.
 
 
-### 2 . Overall Architecture
+### 2 . Overall Architecture 🏛️
 UniStaker Infrastructure consists of several core contracts focused on three primary functionalities:
 
 a. **Factory-level control**
@@ -256,7 +261,7 @@ b. **Liquidity mining management**
 c. **Delegation and surrogacy**
 - The DelegationSurrogate contract facilitates token delegation by implementing a surrogate mechanism for token transfers. The contract helps to maintain compatibility with non-delegatable ERC-20 tokens and enhances the user experience.
 
-### 3 . Key Mechanisms and Approaches
+### 3 . Key Mechanisms and Approaches 💡
 i . **Epoch-based rewards**
 -  The UniStaker contract implements epoch-based rewards for liquidity providers. Epochs are defined periods during which liquidity providers earn rewards based on their contributions. This approach enables a more predictable and fair reward distribution system.
 
@@ -265,7 +270,7 @@ ii . **Surrogate mechanism**
 
 iii . **Notifiable reward receivers** The INotifiableRewardReceiver interface requires that reward receivers implement the relevant callback function. This approach ensures proper processing of rewards during claim transactions.
 
-### 4 .  Systems Risks and Centralization Concerns
+### 4 .  Systems Risks and Centralization Concerns ⚠️
 i . **Centralized control**
 -  The UniStaker contract relies on a centralized authority, the factory owner, to manage the reward pools of liquidity mining programs. Concentration of power in a single address poses a risk of malicious behavior or centralized decision-making.
 
@@ -273,7 +278,7 @@ ii . **Factory-level control**
 -  The V3FactoryOwner contract grants extensive control to the factory owner, potentially introducing censorship or manipulation risks. For instance, the factory owner can create, remove, or update reward pools, as well as add or remove tokens, which could lead to centralization concerns if misused.
 
 
-## Economic Model Analysis 
+## Economic Model Analysis 📈
 | Contract                     | Variable             | Description                                             | Economic Impact                                                                                                                                                                                                                                                                                                                                                                                                               |
 |------------------------------|----------------------|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UniStaker.sol                | totalShares          | Total shares outstanding at any given time.             | This variable determines the total number of shares in circulation, which impacts the distribution of rewards among stakers. A higher number of shares indicates a more distributed reward system, while a lower number indicates a more centralized reward system.                                                                                                                                                       |
@@ -292,7 +297,7 @@ ii . **Factory-level control**
 
 
 
-## Functions and their uses 
+## Functions and their uses 🛠️
 
 | Contract           | Function Name         | Function Description                                      |
 |-------------------------|-----------------------|-----------------------------------------------------------|
@@ -311,7 +316,7 @@ ii . **Factory-level control**
 | IUniswapV3PoolOwnerActions | migrate             | Allows users to migrate their UNI-V3 position NFT.        |
 | IUniswapV3FactoryOwnerActions | createPool       | Allows users to create and sign a new Uniswap V3 pool.    |
 | INotifiableRewardReceiver | notifyRewardAmount  | Allows contracts to notify about new rewards.             |
-## Roles and Permissions 
+## Roles and Permissions 👥
 
 The following table summarizes the roles, their associated permissions, and related contracts in the UniStaker Infrastructure
 
@@ -401,7 +406,7 @@ During the code analysis, several abstract potential weak points were identified
 - Implement a multi-sig wallet or time-lock mechanisms to minimize the potential abuse associated with single-person administrative roles.
 - Limit the use of onlyRole to essential functionality to minimize the attack surface.
 
-## Learning and insights 
+## Learning and insights 📚
 
 During this audit, I acquired new insights into the Uniswap V3 Factory and Uniswap Governance ecosystems. I also gained a deeper understanding of the approaches and patterns involved in staking infrastructure development.
 
@@ -420,7 +425,7 @@ The architecture assessment highlights the separation of core components, such a
 Through the audit process, valuable insights into Uniswap V3 Factory and Uniswap governance ecosystems have been gained, contributing to a deeper understanding of staking infrastructure development and Solidity interface utilization. By implementing the recommendations and following best practices outlined in this report, the UniStaker Infrastructure can maintain a secure and functional staking ecosystem for Uniswap governance participants.
 
 
-## Message For the Team Behind Unistaking Infrastructure 
+## Message For the Team Behind Unistaking Infrastructure ✉️
 🎉 Congratulations to the Team Behind Unistaking Infrastructure on successfully completing the audit program in Code4Rena! 🚀
 
 
@@ -431,6 +436,8 @@ As a participant in your audit process, I have witnessed firsthand the level of 
 I extend my heartfelt best wishes to the entire team for the continued success of Unistaking. May your efforts pave the way for a robust, secure, and highly functional staking infrastructure within the Uniswap ecosystem. I have no doubt that your dedication and expertise will lead to great achievements and widespread adoption.
 
 Here's to the success of Unistaking and the bright future that lies ahead! 🥂
+
+
 
 
 
