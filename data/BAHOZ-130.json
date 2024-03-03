@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "BAHOZ",
+  "risk": "2",
+  "title": "claimFees() allows faulty fee claims",
+  "issueId": 130,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/130"
+}
