@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "jesjupyter",
+  "risk": "2",
+  "title": "`permitAndStake` and `permitAndStakeMore` can be front-run to cause DoS",
+  "issueId": 120,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/120"
+}
