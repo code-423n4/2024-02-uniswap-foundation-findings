@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "jesjupyter",
+  "risk": "2",
+  "title": "calcaultion of `scaledRewardRate` will make the rewards stuck in the contract when `totalStaked = 0`",
+  "issueId": 134,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/134"
+}
