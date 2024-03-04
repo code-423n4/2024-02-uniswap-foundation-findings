@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "emerald7017",
+  "risk": "2",
+  "title": "Multiple reward notifications in the same block can lead to lost rewards",
+  "issueId": 261,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/261"
+}
