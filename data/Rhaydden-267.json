@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Rhaydden",
+  "risk": "2",
+  "title": "Missing validation of admin argument could indefinitely lock owner role",
+  "issueId": 267,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/267"
+}
