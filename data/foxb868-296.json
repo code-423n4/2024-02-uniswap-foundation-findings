@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "UniStaker does not properly account for leftover owed rewards from the previous period when calculating the new rate",
+  "issueId": 296,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/296"
+}
