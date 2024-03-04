@@ -218,7 +218,7 @@ An example of one of the modified tests is below:
 
  ##  Add `Uni.handler.sol`, the wrapper around `Uni`, allowing to call its functions from fuzz/invariant tests
 
-Similar to the already present [test/helpers/UniStaker.handler.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/helpers/UniStaker.handler.sol), we have implemented the lightweight `test/helpers/Uni.handler.sol`, which allowes to call most crucial for testing user-facing functions of `UNI`.
+Similar to the already present [test/helpers/UniStaker.handler.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/helpers/UniStaker.handler.sol), we have implemented the lightweight `test/helpers/Uni.handler.sol`, which allows to call most crucial for testing user-facing functions of `UNI`.
 
 ```solidity
 // SPDX-License-Identifier: GPL-3.0-or-later
