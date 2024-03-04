@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "xuwinnie",
+  "risk": "2",
+  "title": "Rewards will be lost when totalStaked == 0",
+  "issueId": 258,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/258"
+}
