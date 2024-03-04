@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "xiaohuanxiong_0311",
+  "risk": "3",
+  "title": "Front-Running Vulnerability in Reward Distribution Allowing Extraction of Miner-Extractable Value (MEV)",
+  "issueId": 194,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/194"
+}
