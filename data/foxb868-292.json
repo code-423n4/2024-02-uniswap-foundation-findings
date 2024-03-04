@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "Unrestricted governance control over payoutAmount risks destabilizing MEV bots and protocol revenue.",
+  "issueId": 292,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/292"
+}
