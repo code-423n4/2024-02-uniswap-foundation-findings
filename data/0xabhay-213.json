@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xabhay",
+  "risk": "2",
+  "title": "https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/src/UniStaker.sol#L570",
+  "issueId": 213,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/213"
+}
