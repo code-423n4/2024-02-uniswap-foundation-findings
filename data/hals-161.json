@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "hals",
+  "risk": "2",
+  "title": "A deposit beneficiary will claim more rewards than he's entitled to, when the deposit owner stakes while there's no calls made to the `notifyRewardAmount` function",
+  "issueId": 161,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/161"
+}
