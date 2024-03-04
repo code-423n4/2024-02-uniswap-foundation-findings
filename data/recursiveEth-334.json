@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "recursiveEth",
+  "risk": "3",
+  "title": "Potential Delay in Fee Claiming Due to Missing Reward Notifier",
+  "issueId": 334,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/334"
+}
