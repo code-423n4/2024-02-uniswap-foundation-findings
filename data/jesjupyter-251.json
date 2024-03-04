@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "jesjupyter",
+  "risk": "2",
+  "title": "The doc and comment is inconsistent with the design and mechanism of `stakeOnBehalf`",
+  "issueId": 251,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/251"
+}
