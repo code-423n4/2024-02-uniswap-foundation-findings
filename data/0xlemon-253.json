@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xlemon",
+  "risk": "2",
+  "title": "A user can never claim all the fees accrued for token0 or token1 or both",
+  "issueId": 253,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/253"
+}
