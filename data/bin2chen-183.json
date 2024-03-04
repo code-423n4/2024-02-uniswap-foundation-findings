@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "bin2chen",
+  "risk": "2",
+  "title": "Modification of payoutAmount may cause users to overpay.",
+  "issueId": 183,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/183"
+}
