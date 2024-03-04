@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "radev_sw",
+  "risk": "3",
+  "title": "Updating of protocol fee via `V3FactoryOwner.sol#setFeeProtocol()` function can cause unfair rewards distributation for stakers in `UniStaker.sol` contract (the changing of protocol fees will apply to pending for claiming fees)",
+  "issueId": 236,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/236"
+}
