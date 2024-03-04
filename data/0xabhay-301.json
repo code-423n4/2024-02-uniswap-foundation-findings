@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "0xabhay",
+  "risk": "2",
+  "title": "Missing Deadline in `UniStaker.sol` Stake Delegation Leads to Potential Misuse",
+  "issueId": 301,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/301"
+}
