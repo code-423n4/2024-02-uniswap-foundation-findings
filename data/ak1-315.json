@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "ak1",
+  "risk": "2",
+  "title": "V3FactoryOwner.sol : absence of cool down period or pause between `claimFees` and `setPayoutAmount` lead to front running and benefiting more",
+  "issueId": 315,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/315"
+}
