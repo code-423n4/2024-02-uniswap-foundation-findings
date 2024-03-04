@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "thisvishalsingh",
+  "risk": "2",
+  "title": " An attacker could exploit the `V3FactoryOwner::claimFees` function to drain funds ",
+  "issueId": 318,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/318"
+}
