@@ -1,6 +1,6 @@
 #  Adapting UniStaker test infrastructure to UNI token
 
-Current testing infrastructure for UniStaker includes fuzz and integration tests which employ mocks for the governance token, in particular [test/mocks/MockERC20Votes.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/mocks/MockERC20Votes.sol). The sponsors have confirmed though in the Discord contest channel that as the governance token exclusively the [currently deployed UNI token](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code) will be used. In light of that information, it should be noted that `MockERC20Votes.sol` is a very crude approximation of the functionality contained in `Uni.sol`. In particular, the latter:
+Current testing infrastructure for UniStaker includes fuzz and integration tests which employ mocks for the governance token, in particular [test/mocks/MockERC20Votes.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/mocks/MockERC20Votes.sol). The sponsors have confirmed in the Discord contest channel though that exclusively the [currently deployed UNI token](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code) will be used as the governance token. In light of that information, it should be noted that `MockERC20Votes.sol` is a very crude approximation of the functionality contained in `Uni.sol`. In particular, the latter:
 
 - allows token holders to delegate their voting power directly, via the `delegate()` method;
 - employs a non-trivial accounting scheme for delegated votes, indexed according to block numbers;
@@ -188,7 +188,7 @@ index 89124f8..22e0534 100644
    }
 ```
 
-## Additional assertions to track voting power changes in 'Uni'
+## Additional assertions to track voting power changes in `Uni`
 
 As already explained above, voting power is a very important aspect of `UNI` token, which, on the one hand, is influenced by the introduction of `UniStaker` (via surrogate delegations), and on the other hand voting power changes are not tracked at all in the current test suite. We have added corresponding assertions to a few of the current tests; the rest of the test suite needs to be examined, and assertions added as well; we leave this to UniSwap developers.
 
@@ -356,7 +356,7 @@ index f8fe335..9622571 100644
 
 In particular, usage of the low-level Foundry's `deal` function, which modifies in place the storage of an ERC20 contract, is incompatible with `UNI`'s vote accounting mechanism, and leads to underflows in vote computations with the error thrown `Uni::_moveVotes: vote amount underflows`.
 
-## Extensions to `UniStaker.invariants.t.sol`, to track an additional invariant, `invariant_Total_stake_plus_direct_delegations_equals_current_votes`
+## Extensions to `UniStaker.invariants.t.sol` to track an additional invariant, `invariant_Total_stake_plus_direct_delegations_equals_current_votes`
 
 We have extended `UniStaker.invariants.t.sol` with an additional invariant that asserts that on all changes, either via `UniStaker` or via direct user delegations via `UNI`, the total stake via `UniStaker` summed up with direct delegations, gives the total voting power for all delegates. The changes are outlined below.
 
