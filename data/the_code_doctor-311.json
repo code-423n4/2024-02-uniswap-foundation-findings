@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "the_code_doctor",
+  "risk": "3",
+  "title": "In function _stakeMore the earningPower[deposit.beneficiary] is incorrectly updated by adding only _amount",
+  "issueId": 311,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/311"
+}
