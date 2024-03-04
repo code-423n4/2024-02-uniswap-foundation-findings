@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "xiaohuanxiong_0311",
+  "risk": "3",
+  "title": "Insufficient Reward Balance Validation in notifyRewardAmount Function",
+  "issueId": 191,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/191"
+}
