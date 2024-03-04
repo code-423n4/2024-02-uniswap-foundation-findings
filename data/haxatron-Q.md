@@ -80,6 +80,34 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
 ```
 A user can specify `_pool` and specify an arbitrary `_amount0` and `amount1` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0Requested` and `_amount1Requested` greater than `_amount0` and `amount1` to pass the revert check. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
+## [L-03]: Missing zero address check for certain variables in `V3FactoryOwner.sol` uncaught in bot report.
+
+In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted by the bot report in bot finding [L-03](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/bot-report.md#l-03-missing-zero-address-check-in-constructor)
+
+[V3FactoryOwner.sol#L88-L106](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L88-L106)
+```solidity
+  constructor(
+    address _admin,
+    IUniswapV3FactoryOwnerActions _factory,
+    IERC20 _payoutToken,
+    uint256 _payoutAmount,
+    INotifiableRewardReceiver _rewardReceiver
+  ) {
+    if (_admin == address(0)) revert V3FactoryOwner__InvalidAddress();
+    if (_payoutAmount == 0) revert V3FactoryOwner__InvalidPayoutAmount();
+
+    admin = _admin;
+    FACTORY = _factory;
+    PAYOUT_TOKEN = _payoutToken;
+    payoutAmount = _payoutAmount;
+    REWARD_RECEIVER = _rewardReceiver;
+
+    emit AdminSet(address(0), _admin);
+    emit PayoutAmountSet(0, _payoutAmount);
+  }
+```
+In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` are missing the zero address checks.
+
 ## [NC-01]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
 
 There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` it should be `oldAdmin`.
