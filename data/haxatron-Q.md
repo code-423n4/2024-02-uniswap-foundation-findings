@@ -78,7 +78,7 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
     return (_amount0, _amount1);
   }
 ```
-A user can specify `_pool` and specify an arbitrary `_amount0` and `amount1` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0Requested` and `_amount1Requested` greater than `_amount0` and `amount1`. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
+A user can specify `_pool` and specify an arbitrary `_amount0` and `amount1` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0Requested` and `_amount1Requested` greater than `_amount0` and `amount1` to pass the revert check. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
 ## [NC-01]: Misspelling of `oldAdmin` in event variable.
 
