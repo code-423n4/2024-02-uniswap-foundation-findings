@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "negin",
+  "risk": "2",
+  "title": "Wrong duration in scaledRewardRate definition inside the `notifyRewardAmount()` can cause DOS for some users",
+  "issueId": 303,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/303"
+}
