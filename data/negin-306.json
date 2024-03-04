@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "negin",
+  "risk": "2",
+  "title": "Some tokens may be locked and not be distributed due to a rounding error for `scaledRewardRate` that occurs in `notifyRewardAmount()`",
+  "issueId": 306,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/306"
+}
