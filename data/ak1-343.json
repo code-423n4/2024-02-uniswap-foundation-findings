@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "ak1",
+  "risk": "3",
+  "title": "UniStaker.sol : alterBeneficiary ->_alterBeneficiary : rewards can be accumulated for same staked supply by swapping the Beneficiary between the same accounts ",
+  "issueId": 343,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/343"
+}
