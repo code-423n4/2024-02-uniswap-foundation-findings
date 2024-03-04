@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "negin",
+  "risk": "2",
+  "title": "Users will forever lose their accrued rewards if they call withdraw before calling claimReward first",
+  "issueId": 305,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/305"
+}
