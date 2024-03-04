@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "MatricksDeCoder",
+  "risk": "2",
+  "title": "Lack zero value checks for amounts requested in claiming fees can lead to losses by users ",
+  "issueId": 228,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/228"
+}
