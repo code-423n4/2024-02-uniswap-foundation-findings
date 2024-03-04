@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "marchev",
+  "risk": "2",
+  "title": "`AlterDelegatee` signature is weak and can be misused",
+  "issueId": 159,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/159"
+}
