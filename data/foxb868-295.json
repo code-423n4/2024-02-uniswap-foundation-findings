@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "Truncation in reward calculation reduces earned rewards systematically over time.",
+  "issueId": 295,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/295"
+}
