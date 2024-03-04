@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "radev_sw",
+  "risk": "2",
+  "title": "`UniStaker.sol#permitAndStake()` and `UniStaker.sol#permitAndStakeMore()` functions  are allowed to be called by permit creator only (Incorrect implementation of EIP-2612)",
+  "issueId": 219,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/219"
+}
