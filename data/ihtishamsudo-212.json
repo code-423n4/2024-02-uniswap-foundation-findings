@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "ihtishamsudo",
+  "risk": "2",
+  "title": "An Attacker Can DOS UniStaker::permitAndStake with revert by frontRunning",
+  "issueId": 212,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/212"
+}
