@@ -4,14 +4,14 @@
 
 | ID  | Title                                            | Severity |
 | --- | ------------------------------------------------ | -------- |
-| 1   | Inconsistent Admin Setting Logic                 | NC       |
-| 2   | Incorrect Comment in `UniStaker.sol#_withdraw()` | Low      |
-| 3   | Naming Conventions for Mappings                  | Low      |
-| 4   | Missing Logic for `_delegatee` Parameter Check   | Medium   |
-| 5   | Admin Role for Uniswap Governance Not Ensured    | High     |
-| 6   | Unnecessary `else` Block                         | Low      |
-| 7   | Redundant IERC20 Import                          | Low      |
-| 8   | Constants in Comparisons                         | Low      |
+| 1   | Inconsistent Admin Setting Logic                 | Low      |
+| 2   | Admin Role for Uniswap Governance Not Ensured    | Low      |
+| 3   | Incorrect Comment in `UniStaker.sol#_withdraw()` | Low      |
+| 4   | Naming Conventions for Mappings                  | Low      |
+| 5   | Allow rewards duration to can be changed         | Low      |
+| 6   | Unnecessary `else` Block                         | NC       |
+| 7   | Redundant IERC20 Import                          | NC       |
+| 8   | Constants in Comparisons                         | NC       |
 
 ---
 
@@ -23,7 +23,27 @@
 
 ### Description and Impact
 
-The logic for setting the admin in both `V3FactoryOwner.sol` and `UniStaker.sol` contracts differs, potentially leading to inconsistent administrative controls across the contracts. This inconsistency can create confusion and potential security risks if the contracts are expected to operate under a unified governance model.
+The setting of admin in [`UniStaker.sol#setAdmin()`](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L201-L204) is implemented as follow:
+
+    ```solidity
+        function setAdmin(address _newAdmin) external {
+            _revertIfNotAdmin();
+            _setAdmin(_newAdmin);
+        }
+    ```
+
+The setting of admin in [`V3FactoryOwner.sol#setAdmin()`](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L110-L115) is implemented as follow:
+
+    ```solidity
+          function setAdmin(address _newAdmin) external {
+            _revertIfNotAdmin();
+            if (_newAdmin == address(0)) revert V3FactoryOwner__InvalidAddress();
+            emit AdminSet(admin, _newAdmin);
+            admin = _newAdmin;
+        }
+    ```
+
+As we can see the logic for setting the admin in both `V3FactoryOwner.sol` and `UniStaker.sol` contracts differs. This inconsistency can create confusion and potential security risks if the contracts are expected to operate under a unified governance model (very very low likelihood). Additionally all of us know that inconsistency isn't good thing.
 
 ### Tools Used
 
@@ -31,11 +51,34 @@ Manual code review
 
 ### Recommended Mitigation Steps
 
-Ensure that the admin setting logic is consistent across both contracts. If both contracts are meant to operate under the same governance mechanism, consider implementing a shared interface or base contract that standardizes the admin setting and governance controls.
+Ensure that the admin setting logic is consistent across both contracts.
+My personal suggestion is to follow the admin setting logic of `UniStaker.sol` contract. That is, create internal `_setAdmin()` function in `V3FactoryOwner.sol` contract that do the zero address check. emit event and set new admin.
 
 ---
 
-## 2. Incorrect Comment in `UniStaker.sol#_withdraw()` Function
+## 2. Admin Role for Uniswap Governance Not Ensured
+
+### Lines of Code
+
+- Deployment scripts and initial setup documentation at [GitHub Repository](https://github.com/code-423n4/2024-02-uniswap-foundation)
+
+### Description and Impact
+
+The documentation states that Uniswap Governance should be the `admin` of the `V3FactoryOwner` contract, but there's no enforcement of this role in the code or deployment scripts. This lack of enforcement could lead to governance issues or misalignment with the intended administrative control.
+
+> In the documentation writes the following: “Uniswap Governance is the `admin` of the `V3FactoryOwner` contract.” ([here](https://docs.unistaker.io/architecture/overview#:~:text=Uniswap%20Governance%20is%20the%20admin%20of%20the%20V3FactoryOwner%20contract.))
+
+### Tools Used
+
+Manual code review and analysis of deployment scripts
+
+### Recommended Mitigation Steps
+
+Ensure that the deployment scripts or initial setup functions explicitly set Uniswap Governance as the `admin` of the `V3FactoryOwner` contract to align with the documented governance model.
+
+---
+
+## 3. Incorrect Comment in `UniStaker.sol#_withdraw()` Function
 
 ### Lines of Code
 
@@ -44,6 +87,10 @@ Ensure that the admin setting logic is consistent across both contracts. If both
 ### Description and Impact
 
 The comment incorrectly states "overflow prevents withdrawing more than balance" when it should accurately describe the situation as preventing underflow. This miscommenting could lead to confusion about the contract's safety mechanisms.
+
+```solidity
+deposit.balance -= _amount; *// overflow prevents withdrawing more than balance` →* `deposit.balance -= \_amount; *// underflow prevents withdrawing more than balance\*
+```
 
 ### Tools Used
 
@@ -55,7 +102,7 @@ Correct the comment to accurately reflect that it is an underflow check: `// und
 
 ---
 
-## 3. Naming Conventions for Mappings
+## 4. Naming Conventions for Mappings
 
 ### Lines of Code
 
@@ -63,7 +110,7 @@ Correct the comment to accurately reflect that it is an underflow check: `// und
 
 ### Description and Impact
 
-The mappings `beneficiaryRewardPerTokenCheckpoint` and `isRewardNotifier` in `UniStaker.sol` do not follow the naming conventions as other mappings in the contract, potentially leading to code inconsistency and readability issues.
+The mappings `beneficiaryRewardPerTokenCheckpoint` and `isRewardNotifier` in `UniStaker.sol` do not follow the naming conventions as other mappings in the contract, leading to code inconsistency and readability issues.
 
 ### Tools Used
 
@@ -71,47 +118,66 @@ Manual code review
 
 ### Recommended Mitigation Steps
 
-Rename the mappings to follow a consistent naming convention used throughout the contract, enhancing code readability and maintainability.
+Do the `beneficiaryRewardPerTokenCheckpoint` and `isRewardNotifier` mappings in `UniStaker.sol` contract named mappings as all other mappings are named mappings.
 
 ---
 
-## 4. Missing Logic for `_delegatee` Parameter Check
+## 5. Allow rewards duration to can be changed
 
 ### Lines of Code
 
-- [UniStaker.sol#stake(uint256 \_amount, address delegatee)](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol)
+The recommendation pertains to the `UniStaker.sol` contract within the UniStaker Infrastructure Protocol, specifically regarding the enhancement of the rewards distribution mechanism. The current implementation does not include a function to adjust the rewards duration dynamically. For reference, see the Synthetix `StakingRewards.sol` implementation, which includes a `setRewardDuration()` function: [Synthetix StakingRewards.sol#L141-L148](https://github.com/Synthetixio/synthetix/blob/develop/contracts/StakingRewards.sol#L141-L148).
 
 ### Description and Impact
 
-The documentation suggests functionality for handling `address(0)` as a `_delegatee` parameter, but the actual function does not implement this logic. This discrepancy between documentation and implementation can lead to unexpected behavior or limitations in functionality.
+The `UniStaker.sol` contract manages the distribution of rewards to stakers, with a fixed reward duration defined at deployment. This fixed duration lacks flexibility in adjusting to changing conditions or strategies that may benefit the protocol and its participants. In contrast, the Synthetix `StakingRewards.sol` contract includes a mechanism for dynamically adjusting the reward duration, offering greater adaptability.
+
+The ability to adjust the rewards duration can have several impacts:
+
+- **Adaptability**: It allows the protocol to adapt to changing market conditions or strategic goals, optimizing reward distribution for stakers.
+- **Incentive Alignment**: Adjusting the duration can help align incentives more closely with the protocol's objectives, potentially increasing participation or securing the protocol more effectively.
+- **Risk Management**: In scenarios where the protocol needs to conserve resources or extend reward distributions due to unforeseen circumstances, adjusting the duration can be a valuable tool.
+
+_Note: This is common practice staking contracts that follow the synthetix logic_
 
 ### Tools Used
 
-- Manual code review
+Manual Code Review
 
 ### Recommended Mitigation Steps
 
-Implement the missing logic to handle `address(0)` for the `_delegatee` parameter as described in the documentation, or update the documentation to reflect the current implementation accurately.
+Step 1. Change the `REWARD_DURATION` constant in `UniStaker.sol` contract to public state variable with initial value of `30 days`.
+Step 2. Implement a `setRewardDuration()` function in the `UniStaker.sol` contract, similar to the Synthetix implementation. This function should allow the protocol's governance or designated admin to adjust the reward duration.
 
----
+Example Implementation:
 
-## 5. Admin Role for Uniswap Governance Not Ensured
+```solidity
+contract UniStaker {
+    // Existing contract variables and functions
+-   uint256 public constant REWARD_DURATION = 30 days;
++   uint256 public rewardDuration = 30 days; // Assuming this exists
++   event RewardDurationUpdated(uint256 newDuration);
 
-### Lines of Code
+    // Constructor and other functions
 
-- Deployment scripts and initial setup documentation at [GitHub Repository](https://github.com/code-423n4/2024-02-uniswap-foundation)
+    /**
+     * @notice Updates the reward duration for the staking contract.
+     * @param _newDuration The new reward duration in seconds.
+     */
+    function setRewardDuration(uint256 _newDuration) external {
+        require(msg.sender == admin, "UniStaker: Unauthorized");
+        require(_newDuration > 0, "UniStaker: Invalid duration");
+        require(
+            block.timestamp > rewardEndTime,
+            "Previous rewards period must be complete before changing the duration for the new period"
+        );
 
-### Description and Impact
+        rewardDuration = _newDuration;
+        emit RewardDurationUpdated(_newDuration);
+    }
+}
 
-The documentation states that Uniswap Governance should be the `admin` of the `V3FactoryOwner` contract, but there's no enforcement of this role in the code or deployment scripts. This lack of enforcement could lead to governance issues or misalignment with the intended administrative control.
-
-### Tools Used
-
-Manual code review and analysis of deployment scripts
-
-### Recommended Mitigation Steps
-
-Ensure that the deployment scripts or initial setup functions explicitly set Uniswap Governance as the `admin` of the `V3FactoryOwner` contract to align with the documented governance model.
+```
 
 ---
 
@@ -226,127 +292,44 @@ Adopt Yoda conditions by placing constants on the left side of comparisons for c
 
 ---
 
----
+## 9. The slippage protection in `V3FactoryOwner.sol#claimFees()` function isn’t efficient when multiple fee tiers are present
 
----
+### Description and Impact
 
-#
+The `V3FactoryOwner.sol#claimFees()` function is designed to allow the claiming of protocol fees from Uniswap V3 pools. This function plays a crucial role in the management of liquidity and fee collection within the ecosystem. However, the slippage protection in `V3FactoryOwner.sol#claimFees()` function isn’t efficient when multiple fee tiers are present
 
-#
+This is that, because the slippage protection mechanism does not account for the variances in liquidity and price impact across different fee tiers. In a multi-tier fee environment, pools can be imbalanced in various directions, and even if funds are supplied in the same proportion, they might provide liquidity at a less favorable price due to these imbalances.
 
-#
+### Recommended Mitigation Steps
 
----
+```diff
+  function claimFees(
+    IUniswapV3PoolOwnerActions _pool,
+    address _recipient,
+    uint128 _amount0Requested,
+    uint128 _amount1Requested
+  ) external returns (uint128, uint128) {
+    PAYOUT_TOKEN.safeTransferFrom(msg.sender, address(REWARD_RECEIVER), payoutAmount);
+    REWARD_RECEIVER.notifyRewardAmount(payoutAmount);
+    (uint128 _amount0, uint128 _amount1) =
+      _pool.collectProtocol(_recipient, _amount0Requested, _amount1Requested);
 
----
+    // Protect the caller from receiving less than requested. See `collectProtocol` for context.
+    if (_amount0 < _amount0Requested || _amount1 < _amount1Requested) {
+      revert V3FactoryOwner__InsufficientFeesCollected();
+    }
 
----
++   if (_amount0 * _amount1 > _amount1Requested * _amount2Requested) {
++    revert Errors.Enigma_RebalanceBelowMinAmounts(mint0Amount, mint0Amount, minDeposit0, minDeposit1);
++   }
 
-1. The logic for admin setting in `V3FactoryOwner.sol` and `UniStaker.sol` should be implemented identically.
-2. Wrong comment in one of the lines in `UniStaker.sol#_withdraw()` function.
+    emit FeesClaimed(address(_pool), msg.sender, _recipient, _amount0, _amount1);
+    return (_amount0, _amount1);
+  }
 
-   `deposit.balance -= _amount; *// overflow prevents withdrawing more than balance` →* `deposit.balance -= \_amount; *// underflow prevents withdrawing more than balance\*`
-
-3. Do the `beneficiaryRewardPerTokenCheckpoint` and `isRewardNotifier` mappings in `UniStaker.sol` contract named mappings as all other mappings are named mappings.
-4. In the dev comments for `UniStaker.sol#stake(uint256 _amount, address delegatee)` function writes “The delegatee may not be the zero address. The deposit will be owned by the message sender, and the beneficiary will also be the message sender”. However this function doesn’t contains logic that allow user to specify `address(0)` for `_delegatee` parameter (so, implement something like this `delegatee == address(0) ? delegatee = msg.sender...`). [proof](https://www.notion.so/9d823b70a510468ba4450f77fb5e0e3e?pvs=21)
-5. In the documentation writes the following: “Uniswap Governance is the `admin` of the `V3FactoryOwner` contract.” (_[here](https://www.notion.so/Audit-Contests-6bf37770dcb04b6a9b8d1afc878bd43f?pvs=21)_), But this is not ensured anywhere (even in deploy scripts).
-6. `else`block not required
-
-   One level of nesting can be removed by not having an `else` block when the `if`-block returns, and `if (foo) { return 1; } else { return 2; }` becomes `if (foo) { return 1; } return 2;`
-
-   <i>There is one instance of this issue:</i>
-
-   ```solidity
-   📁 File: src/UniStaker.sol
-
-   221:     if (rewardEndTime <= block.timestamp) return rewardEndTime;
-   222:     else return block.timestamp;
-   ```
-
-   [221](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol/#L221-L222)
-
-7. Redundant IERC20 import
-
-   IERC20 is already present in SafeERC20 or ERC20, no need to import it twice
-
-   Replace
-
-   ```solidity
-   import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-
-   ```
-
-   with
-
-   ```solidity
-   import { SafeERC20, IERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-
-   ```
-
-   <details>
-   <summary><i>There are 4 instances of this issue:</i></summary>
-
-   ```solidity
-   📁 File: src/UniStaker.sol
-
-   7: import {IERC20} from "openzeppelin/token/ERC20/IERC20.sol";
-   8: import {SafeERC20} from "openzeppelin/token/ERC20/utils/SafeERC20.sol";
-
-   ```
-
-   [7](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol/#L7-L8)
-
-   ```solidity
-   📁 File: src/V3FactoryOwner.sol
-
-   7: import {IERC20} from "openzeppelin/token/ERC20/IERC20.sol";
-   8: import {SafeERC20} from "openzeppelin/token/ERC20/utils/SafeERC20.sol";
-
-   ```
-
-   [7](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol/#L7-L8)
-
-   </details>
-
-8. Constants in comparisons should appear on the left side
-
-   Putting constants on the left side of comparison statements is a best practice known as [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions). Although solidity's static typing system prevents accidental assignments within conditionals, adopting this practice can improve code readability and consistency, especially when working across multiple languages.
-
-   <details>
-   <summary><i>There are 5 instances of this issue:</i></summary>
-
-   ```solidity
-   📁 File: src/UniStaker.sol
-
-   /// @audit move 0 to the left
-   230:     if (totalStaked == 0) return rewardPerTokenAccumulatedCheckpoint;
-
-   /// @audit move 0 to the left
-   587:     if ((scaledRewardRate / SCALE_FACTOR) == 0) revert UniStaker__InvalidRewardRate();
-
-   /// @audit move 0 to the left
-   745:     if (_reward == 0) return;
-
-   ```
-
-   [230](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol/#L230-L230), [587](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol/#L587-L587), [745](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol/#L745-L745)
-
-   ```solidity
-   📁 File: src/V3FactoryOwner.sol
-
-   /// @audit move 0 to the left
-   96:     if (_payoutAmount == 0) revert V3FactoryOwner__InvalidPayoutAmount();
-
-   /// @audit move 0 to the left
-   121:     if (_newPayoutAmount == 0) revert V3FactoryOwner__InvalidPayoutAmount();
-
-   ```
-
-   [96](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol/#L96-L96), [121](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol/#L121-L121)
-
-   </details>
-
-9. Allow rewards duration to can be changed.
-10. https://github.com/code-423n4/2022-02-concur-findings/issues/209
-11. The slippage protection in `V3FactoryOwner.sol#claimFees()` function isn’t efficient when multiple fee tiers are present
+  /// @notice Ensures the msg.sender is the contract admin and reverts otherwise.
+  /// @dev Place inside external methods to make them admin-only.
+  function _revertIfNotAdmin() internal view {
+    if (msg.sender != admin) revert V3FactoryOwner__Unauthorized();
+  }
+```
