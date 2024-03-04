@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Trust",
+  "risk": "3",
+  "title": "Callers of claimFees() will lose value due to unavoidable race condition",
+  "issueId": 332,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/332"
+}
