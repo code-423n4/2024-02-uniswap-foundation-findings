@@ -51,7 +51,7 @@ In the code above, there are checks to protect the caller from receiving less th
 ```
 In the fee claiming above, notice that to save gas, if the user specifies `amount0 == protocolFees.token0`, we deduct 1 from `amount0` and if `amount1 == protocolFees.token1` we also deduct 1 from `amount1`. However, when `amount0` and `amount1` is returned back to the original `claimFees` function it will result in `_amount0 < _amount0Requested` or `_amount1 < _amount1Requested`, which will cause the entire `claimFees` function to revert.
 
-Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from do so. This unexpected behaviour can cause users to waste gas and even lose the auction. It is recommended that this behaviour should be documented.
+Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from doing so. This unexpected behaviour can cause users to waste gas and even lose the auction. It is recommended that this behaviour should be documented.
 
 ## [L-02]: User can specify `_pool` to an address of a contract they own.
 
