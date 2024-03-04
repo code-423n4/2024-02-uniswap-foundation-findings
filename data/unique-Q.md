@@ -82,5 +82,13 @@ pragma solidity ^0.8.23;
 File: src/UniStaker.sol
 pragma solidity 0.8.23;
 ```
+## [S-01] Generate perfect code headers every time
+
+Description:  
+I recommend using header for Solidity code layout and readability
+
+/*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/  
+/*                 CONSTANTS                                  */  
+/*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 &nbsp;
