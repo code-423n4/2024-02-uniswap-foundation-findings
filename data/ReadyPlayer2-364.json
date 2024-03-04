@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "ReadyPlayer2",
+  "risk": "2",
+  "title": "DOS possible in Unistaker rewardPerTokenAccumulated due to overflow from minimal totalstaked",
+  "issueId": 364,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/364"
+}
