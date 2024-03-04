@@ -333,3 +333,37 @@ This is that, because the slippage protection mechanism does not account for the
     if (msg.sender != admin) revert V3FactoryOwner__Unauthorized();
   }
 ```
+
+---
+
+## There isn't need to update `rewardPerTokenAccumulatedCheckpoint` state variable in the beginning of `UniStaker.sol#notifyRewardAmount()` function, because duting staking, withdrawing and claiming the `rewardPerTokenAccumulatedCheckpoint` state variable is updated together with `beneficiaryRewardPerTokenCheckpoint` state variable
+
+```solidity
+  function notifyRewardAmount(uint256 _amount) external {
+    if (!isRewardNotifier[msg.sender]) revert UniStaker__Unauthorized("not notifier", msg.sender);
+
+    // We checkpoint the accumulator without updating the timestamp at which it was updated, because
+    // that second operation will be done after updating the reward rate.
+    rewardPerTokenAccumulatedCheckpoint = rewardPerTokenAccumulated();
+
+    if (block.timestamp >= rewardEndTime) {
+      scaledRewardRate = (_amount * SCALE_FACTOR) / REWARD_DURATION;
+    } else {
+      uint256 _remainingReward = scaledRewardRate * (rewardEndTime - block.timestamp);
+      scaledRewardRate = (_remainingReward + _amount * SCALE_FACTOR) / REWARD_DURATION;
+    }
+
+    rewardEndTime = block.timestamp + REWARD_DURATION;
+    lastCheckpointTime = block.timestamp;
+
+    if ((scaledRewardRate / SCALE_FACTOR) == 0) revert UniStaker__InvalidRewardRate();
+
+    if (
+      (scaledRewardRate * REWARD_DURATION) > (REWARD_TOKEN.balanceOf(address(this)) * SCALE_FACTOR)
+    ) revert UniStaker__InsufficientRewardBalance();
+
+    emit RewardNotified(_amount, msg.sender);
+  }
+```
+
+**Referance: [Synthetix StakingRewards.sol implementation](https://github.com/Synthetixio/synthetix/blob/develop/contracts/StakingRewards.sol#L113-L132)**
