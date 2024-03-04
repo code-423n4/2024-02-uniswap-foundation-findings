@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "DadeKuma",
+  "risk": "2",
+  "title": "Signatures can be held indefinitely, as they cannot expire",
+  "issueId": 205,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/205"
+}
