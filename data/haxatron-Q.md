@@ -90,11 +90,26 @@ There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` i
   event AdminSet(address indexed oldAmin, address indexed newAdmin);
 ```
 
-## [NC-02]: Double spacing in NatSpec comment in `DelegationSurrogate.sol`
+## [NC-02]: Part of NatSpec comment in `DelegationSurrogate.sol` contains typos and is hard to read
 
-There is a double spacing typo between `appropriate` and `surrogate—or` in NatSpec comment in `DelegationSurrogate.sol`
+There are some typos in one line of the NatSpec comment in `DelegationSurrogate.sol` which makes it difficult to read.
 
-[DelegationSurrogate.sol#L15C31-L15C64](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/DelegationSurrogate.sol#L15C31-L15C64)
+Firstly, there is a double spacing in between `appropriate` and `surrogate—or`.
+
+Secondly, the introduction of random hyphens in the sentence such `surrogate—or` and `behalf—users` which makes it hard to read. These hyphens can be misinterpreted as compound words.
+
+[DelegationSurrogate.sol#L15](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/DelegationSurrogate.sol#L15)
 ```solidity
 /// depositor's tokens to the appropriate  surrogate—or deploys it on their behalf—users can retain
 ```
+The line should be changed to:
+```solidity
+/// depositor's tokens to the appropriate surrogate or deploys it on their behalf, users can retain
+```
+Which makes it easier to read in the full sentence.
+```solidity
+/// If a pool contract deploys a DelegationSurrogate for each delegatee, and transfers each
+/// depositor's tokens to the appropriate surrogate or deploys it on their behalf, users can retain
+/// their governance rights.
+```
+
