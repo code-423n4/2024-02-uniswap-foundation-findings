@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "cheatc0d3",
+  "risk": "3",
+  "title": "Non-Compliance with EIP-2612 in permitAndStake Function Limits Delegated Staking Flexibility",
+  "issueId": 319,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/319"
+}
