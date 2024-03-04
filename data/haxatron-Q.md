@@ -80,9 +80,9 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
 ```
 A user can specify `_pool` and specify an arbitrary `_amount0` and `amount1` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0Requested` and `_amount1Requested` greater than `_amount0` and `amount1` to pass the revert check. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
-## [NC-01]: Misspelling of `oldAdmin` in event variable.
+## [NC-01]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
 
-There is a misspelling of `oldAmin` in event variable, it should be `oldAdmin`.
+There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` it should be `oldAdmin`.
 
 [V3FactoryOwner.sol#L47-L48](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L47-L48)
 ```solidity
