@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Trust",
+  "risk": "2",
+  "title": "Expected interaction with claimFees will revert",
+  "issueId": 326,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/326"
+}
