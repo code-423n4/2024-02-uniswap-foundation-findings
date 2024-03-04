@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "nervouspika",
+  "risk": "2",
+  "title": "REWARD_TOKEN can be locked in the `UniStaker` when no deposit exists",
+  "issueId": 177,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/177"
+}
