@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "israeladelaja",
+  "risk": "2",
+  "title": "V3FactoryOwner.claimFees() doesn't handle fee-on-transfer tokens",
+  "issueId": 361,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/361"
+}
