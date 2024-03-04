@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "okolicodes",
+  "risk": "2",
+  "title": "Calls to `permitAndStake()` could be Permanently DOS' ed",
+  "issueId": 170,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/170"
+}
