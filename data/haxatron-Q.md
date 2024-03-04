@@ -92,7 +92,7 @@ There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` i
 
 ## [NC-02]: Double spacing in NatSpec comment in `DelegationSurrogate.sol`
 
-There is a double spacing typo between `appropriate` and `surrogate—or`  in NatSpec comment in `DelegationSurrogate.sol`
+There is a double spacing typo between `appropriate` and `surrogate—or` in NatSpec comment in `DelegationSurrogate.sol`
 
 [DelegationSurrogate.sol#L15C31-L15C64](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/DelegationSurrogate.sol#L15C31-L15C64)
 ```solidity
