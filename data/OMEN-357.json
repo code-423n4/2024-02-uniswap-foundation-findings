@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "OMEN",
+  "risk": "2",
+  "title": "malicious user can create surrogate and impersonat as real and will take token out",
+  "issueId": 357,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/357"
+}
