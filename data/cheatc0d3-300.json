@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "cheatc0d3",
+  "risk": "2",
+  "title": "Block Gas Limit DoS in `_claimReward` Due to Non-Standard ERC20 Token `transfer` Implementations",
+  "issueId": 300,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/300"
+}
