@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "emerald7017",
+  "risk": "2",
+  "title": "Unchecked fee parameters in `setFeeProtocol` pose risks of revenue loss or exploitation.",
+  "issueId": 263,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/263"
+}
