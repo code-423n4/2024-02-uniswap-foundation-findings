@@ -206,7 +206,7 @@ Our recommendation is to update the comment from: `/// @notice Permissioned acto
 When non-admin address tries to call authorized function, `V3FactoryOwner.sol` reverts with `V3FactoryOwner__Unauthorized()`.
 When non-admin address tries to call authorized function, `UniStaker.sol` reverts with `UniStaker__Unauthorized("not admin", msg.sender)`.
 
-To increase code readability, those two errors could have similar parameters. Our recommendation is to change line 54 at `V3FactoryOwner.sol`, from `error V3FactoryOwner__Unauthorized();` to `error UniStaker__Unauthorized(bytes32 reason, address caller);` (similarly as it's defined in `UniStaker.sol`). Then, `_revertIfNotAdmin()` in `V3FactoryOwner.sol` should be defined as below:
+To increase code readability, those two errors could have similar parameters. Our recommendation is to change line 54 at `V3FactoryOwner.sol`, from `error V3FactoryOwner__Unauthorized();` to `error V3FactoryOwner__Unauthorized(bytes32 reason, address caller);` (similarly as it's defined in `UniStaker.sol`). Then, `_revertIfNotAdmin()` in `V3FactoryOwner.sol` should be defined as below:
 
 ```
   function _revertIfNotAdmin() internal view {
