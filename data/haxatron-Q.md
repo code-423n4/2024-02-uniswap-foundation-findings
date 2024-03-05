@@ -174,7 +174,7 @@ Consider adding zero address checks for these variables.
 
 ## [R-01]: No-op operations should return / revert early
 
-It might make sense to return / revert early for certain no-op operations, before the events are emitted.
+It might make sense to return / revert early for certain no-op operations, before the events are emitted to prevent spamming of event emissions.
 
 - Staking more 0 tokens
 
