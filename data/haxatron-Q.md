@@ -114,11 +114,35 @@ However, when setting the `payoutAmount`, there is only a check for a zero value
   }
 ```
 
-In case the DAO sets too low of a `payoutAmount`, it would be possible to face the problem outlined in the comment above.
+In case the admin sets too low of a `payoutAmount`, it would be possible to face the problem outlined in the comment above.
 
 Therefore, it is recommended to have a constant `MIN_PAYOUT_AMOUNT` in the contract and check against this value when setting the `payoutAmount`.
 
-## [L-04]: Missing zero address check for certain variables in `V3FactoryOwner.sol` uncaught in bot report.
+## [L-04]: Consider using two-step admin transfers similar to `Ownable2Step`
+
+It is possible to change the admin / owner in one function `setAdmin` for both `V3FactoryOwner.sol` and `UniStaker.sol` which represents a single point of failure in case the admin is compromised
+
+[V3FactoryOwner.sol#L110-L115](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L110-L115)
+```solidity
+  function setAdmin(address _newAdmin) external {
+    _revertIfNotAdmin();
+    if (_newAdmin == address(0)) revert V3FactoryOwner__InvalidAddress();
+    emit AdminSet(admin, _newAdmin);
+    admin = _newAdmin;
+  }
+```
+
+[UniStaker.sol#L198-L205](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L198-L205)
+```solidity
+  function setAdmin(address _newAdmin) external {
+    _revertIfNotAdmin();
+    _setAdmin(_newAdmin);
+  }
+```
+
+Consider using two-step admin transfers similar to how OpenZeppelin's `Ownable2Step` is implemented [here](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable2Step.sol). 
+
+## [L-05]: Missing zero address check for certain variables in `V3FactoryOwner.sol` uncaught in bot report.
 
 In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted by the bot report in bot finding [L-03](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/bot-report.md#l-03-missing-zero-address-check-in-constructor)
 
