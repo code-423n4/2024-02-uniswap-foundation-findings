@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "peanuts",
+  "risk": "2",
+  "title": "Altering a delegatee or staking more UNI tokens into another surrogate contract will not increase the votes of the delegatee",
+  "issueId": 390,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/390"
+}
