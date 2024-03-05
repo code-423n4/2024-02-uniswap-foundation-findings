@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "Matin",
+  "risk": "2",
+  "title": "`rewardPerTokenAccumulated` can be inflated drastically when total staked decreases, making users not getting their rewards",
+  "issueId": 374,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/374"
+}
