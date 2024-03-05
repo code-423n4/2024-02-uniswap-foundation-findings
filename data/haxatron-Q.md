@@ -108,17 +108,7 @@ In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted b
 ```
 In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` are missing the zero address checks.
 
-## [NC-01]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
-
-There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` it should be `oldAdmin`.
-
-[V3FactoryOwner.sol#L47-L48](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L47-L48)
-```solidity
-  /// @notice Emitted when the existing admin designates a new address as the admin.
-  event AdminSet(address indexed oldAmin, address indexed newAdmin);
-```
-
-## [NC-02]: Part of NatSpec comment in `DelegationSurrogate.sol` contains typos and is hard to read
+## [NC-01]: Part of NatSpec comment in `DelegationSurrogate.sol` contains multiple typos and is hard to read
 
 There are some typos in one line of the NatSpec comment in `DelegationSurrogate.sol` which makes it difficult to read.
 
@@ -141,3 +131,21 @@ Which makes it easier to read in the full sentence.
 /// their governance rights.
 ```
 
+## [NC-02]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
+
+There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` it should be `oldAdmin`.
+
+[V3FactoryOwner.sol#L47-L48](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L47-L48)
+```solidity
+  /// @notice Emitted when the existing admin designates a new address as the admin.
+  event AdminSet(address indexed oldAmin, address indexed newAdmin);
+```
+
+## [NC-03]: Misspelling of `param` in NatSpec comment
+
+There is a misspelling in NatSpec comment, instead of `parm` it should be `param`.
+
+[V3FactoryOwner.sol#L140](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L140)
+```solidity
+  /// @param _feeProtocol1 The fee protocol 1 parm to forward to the pool.
+```
