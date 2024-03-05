@@ -36,3 +36,9 @@ modify the internal function to return rewards claimed by msg.sender
 ##### Recommendation 
 Inherit Pausable Library from `OpenZepplin`. 
 
+##### Info-1 - Typo 
+
+typo mistake [V3FactoryOwner](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5298812a129f942555466ebaa6ea9a2af4be0ccc/src/V3FactoryOwner.sol#L140)
+change parm to param
+`/// @param _feeProtocol1 The fee protocol 1 parm to forward to the pool.`
+
