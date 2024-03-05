@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "ak1",
+  "risk": "2",
+  "title": "`_alterBeneficiary` would be used to abuse the reward accumulation. Same beneficiary can be swapped before any reward accumulation operation.",
+  "issueId": 387,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/387"
+}
