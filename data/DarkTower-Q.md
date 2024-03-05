@@ -82,6 +82,38 @@ As is, the `StakeWithdrawn` defined event emits an event that only indexes the `
 + event StakeWithdrawn(address owner, DepositIdentifier indexed depositId, uint256 amount, uint256 depositBalance);
 ```
 
+## [L-04] Misbehaving claimant can notify rewards of small amounts
+The `claimFees()` function of the V3FactoryOwner should set a limit of how much amount0 & amount1 can be requested to avoid scenarios where the UniStaker contract is notified for very minimal amounts e.g 0.005 ether.
+
+- (V3FactoryOwner.sol#L181-L198)[https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L181]
+
+
+```diff
+function claimFees( // @audit info small amounts can still be notified by a misbehaving claimant
+    IUniswapV3PoolOwnerActions _pool,
+    address _recipient,
+    uint128 _amount0Requested,
+    uint128 _amount1Requested
+  ) external returns (uint128, uint128) {
+    PAYOUT_TOKEN.safeTransferFrom(msg.sender, address(REWARD_RECEIVER), payoutAmount);
+    REWARD_RECEIVER.notifyRewardAmount(payoutAmount);
+    (uint128 _amount0, uint128 _amount1) =
+      _pool.collectProtocol(_recipient, _amount0Requested, _amount1Requested);
+
+      // enforce a minimum amount to claim
+
++   if (_amount0Requested == 0 || _amount1Requested == 0) {
++    revert();
++  }
+    // Protect the caller from receiving less than requested. See `collectProtocol` for context.
+    if (_amount0 < _amount0Requested || _amount1 < _amount1Requested) {
+      revert V3FactoryOwner__InsufficientFeesCollected();
+    }
+    emit FeesClaimed(address(_pool), msg.sender, _recipient, _amount0, _amount1);
+    return (_amount0, _amount1);
+  }
+```
+
 ## [NC-01] `UniStaker__InvalidRewardRate` should also state a reason with the resulting value
 The `error UniStaker__InvalidRewardRate()` is thrown when the resulting value of a reward notifier is 0. The error however lacks such reason for the revert and just throws that the rate is invalid. This will lead to confusion and can be better if the error included a reason such as that the resulting `scaledRewardRate` value from the `notifyRewardAmount` transaction is 0.
 
