@@ -131,7 +131,23 @@ Which makes it easier to read in the full sentence.
 /// their governance rights.
 ```
 
-## [NC-02]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
+## [NC-02]: Missing variable names in mappings decreases readability.
+
+There are missing variable names for the value in the key-value pair in some mappings:
+
+[UniStaker.sol#L175](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L175)
+```solidity
+  mapping(address account => uint256) public beneficiaryRewardPerTokenCheckpoint;
+```
+[UniStaker.sol#L185](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L185)
+```solidity
+  mapping(address rewardNotifier => bool) public isRewardNotifier;
+```
+
+To improve readability, it is recommended that variable names for the value in the key-value pair in these mappings should be present.
+
+
+## [NC-03]: Misspelling of `oldAdmin` in `AdminSet` event variable name.
 
 There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` it should be `oldAdmin`.
 
@@ -141,7 +157,7 @@ There is a misspelling in `AdminSet` event variable name, instead of `oldAmin` i
   event AdminSet(address indexed oldAmin, address indexed newAdmin);
 ```
 
-## [NC-03]: Misspelling of `param` in NatSpec comment
+## [NC-04]: Misspelling of `param` in NatSpec comment
 
 There is a misspelling in NatSpec comment, instead of `parm` it should be `param`.
 
