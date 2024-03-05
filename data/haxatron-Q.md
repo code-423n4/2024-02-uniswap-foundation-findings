@@ -49,7 +49,9 @@ In the code above, there are checks to protect the caller from receiving less th
         emit CollectProtocol(msg.sender, recipient, amount0, amount1);
     }
 ```
-In the fee claiming above, notice that to save gas, if the user specifies `amount0 == protocolFees.token0`, we deduct 1 from `amount0` and if `amount1 == protocolFees.token1` we also deduct 1 from `amount1`. However, when `amount0` and `amount1` is returned back to the original `claimFees` function it will result in `_amount0 < _amount0Requested` or `_amount1 < _amount1Requested`, which will cause the entire `claimFees` function to revert.
+In the fee claiming above, notice that to save gas, if the user specifies `amount0 == protocolFees.token0`, we deduct 1 from `amount0` and if `amount1 == protocolFees.token1` we also deduct 1 from `amount1`.
+
+ However, when `amount0` and `amount1` is returned back to the original `claimFees` function it will result in `_amount0 < _amount0Requested` or `_amount1 < _amount1Requested`, which will cause the entire `claimFees` function to revert.
 
 Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from doing so. This unexpected behaviour can cause users to waste gas and even lose the auction. 
 
@@ -80,7 +82,9 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
     return (_amount0, _amount1);
   }
 ```
-A user can specify `_pool` and specify an arbitrary `_amount0Requested` and `_amount1Requested` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0` and `_amount1` lesser than `_amount0Requested` and `_amount1Requested` to pass the revert check. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value specified by the user and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
+A user can specify `_pool` and specify an arbitrary `_amount0Requested` and `_amount1Requested` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0` and `_amount1` lesser than `_amount0Requested` and `_amount1Requested` to pass the revert check. 
+
+This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value specified by the user and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
 Consider either documenting this to prevent any integrators from making mistakes here or adding an allowlist of valid Uniswap V3 pools.
 
