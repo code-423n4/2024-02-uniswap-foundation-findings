@@ -84,7 +84,7 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
 ```
 A user can specify `_pool` and specify an arbitrary `_amount0Requested` and `_amount1Requested` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0` and `_amount1` lesser than `_amount0Requested` and `_amount1Requested` to pass the revert check. 
 
-This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value specified by the user and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
+This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value that is fully controlled by the user and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
 Consider either documenting this to prevent any integrators from making mistakes here or adding an allowlist of valid Uniswap V3 pools.
 
@@ -172,7 +172,20 @@ In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` ar
 
 Consider adding zero address checks for these variables.
 
-## [R-01]: No-op operations should return / revert early
+## [R-01]: Consider adding the amount of rewards claimed as a return value to `claimReward` and `_claimReward`
+
+As per the TrailOfBits audit [report](https://docs.unistaker.io/UniStaker-Trail-of-Bits-Audit-Report.pdf), consider adding the amount of rewards claimed as a return value in the `claimReward` and `_claimReward` functions, so that the user and potential integrators knows how much rewards were claimed. 
+
+[UniStaker.sol#L534-L538](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L534-L538)
+```solidity
+  /// @notice Claim reward tokens the message sender has earned as a stake beneficiary. Tokens are
+  /// sent to the message sender.
+  function claimReward() external {
+    _claimReward(msg.sender);
+  }
+```
+
+## [R-02]: No-op operations should return / revert early
 
 It might make sense to return / revert early for certain no-op operations, before the events are emitted to prevent spamming of event emissions.
 
