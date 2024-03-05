@@ -2,10 +2,72 @@
 
 | ID | Title | Severity |
 | --- | --- | --- |
-| [I-01](#I-01) | Protocol usage will lock funds inside  | Informational |
-| [I-02](#I-02) | No easy way to withdraw | Informational |
+| [I-01](#I-01) | Eliminate permit grief risk | Informational |
+| [I-02](#I-02) | Protocol usage will lock funds inside  | Informational |
+| [I-03](#I-03) | No easy way to withdraw | Informational |
 
-## **I-01**: Protocol usage will lock funds inside
+## **I-01**: Eliminate permit grief risk
+
+## **Severity:**
+
+- Informational
+
+## **Summary:**
+The protocol has two permit convenience functions which are vunerable to front-running, which is out-of-scope for this audit, however one suggestion to eliminate the risk is a whole is to add a simple allowance check, so user's transactions are not reverted but executed. 
+
+
+[PermitAndStake](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L292-L303)
+```solidity
+  function permitAndStake(
+    uint256 _amount,
+    address _delegatee,
+    address _beneficiary,
+    uint256 _deadline,
+    uint8 _v,
+    bytes32 _r,
+    bytes32 _s
+  ) external returns (DepositIdentifier _depositId) {
+-   STAKE_TOKEN.permit(msg.sender, address(this), _amount, _deadline, _v, _r, _s);
++   _permit(_amount, _deadline, _v, _r, _s);
+    _depositId = _stake(msg.sender, _amount, _delegatee, _beneficiary);
+  }
+
++  function _permit(uint256 _amount, uint256 _deadline, uint8 _v, bytes32 _r, bytes32 _s) internal {
++    if (STAKE_TOKEN.allowance(msg.sender, address(this)) != _amount) {
++      STAKE_TOKEN.permit(msg.sender, address(this), _amount, _deadline, _v, _r, _s);
++    }
++  }
+```
+
+[PermitAndStakeMore](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L360-L373)
+
+```solidity
+ function permitAndStakeMore(
+    DepositIdentifier _depositId,
+    uint256 _amount,
+    uint256 _deadline,
+    uint8 _v,
+    bytes32 _r,
+    bytes32 _s
+  ) external {
+    Deposit storage deposit = deposits[_depositId];
+    _revertIfNotDepositOwner(deposit, msg.sender);
+
+-   STAKE_TOKEN.permit(msg.sender, address(this), _amount, _deadline, _v, _r, _s);
++   _permit(_amount, _deadline, _v, _r, _s);
+    _stakeMore(deposit, _depositId, _amount);
+  }
+```
+
+## **Tools Used:**
+
+- Manual analysis
+
+## **Recommendation:**
+Add the new utility func and forget about any griefing attacks. 
+
+
+## **I-02**: Protocol usage will lock funds inside
 
 ## **Severity:**
 
@@ -66,7 +128,7 @@ If a portion of these rewards remains unused, as illustrated in the example prov
 
 There is no easy way to implement a redistribution mechanism for this token buildup. But the amount will be negligible because of the high precision but will accumulate nevertheless.  
 
-## **I-02**: No easy way to withdraw
+## **I-03**: No easy way to withdraw
 
 ## **Severity:**
 
