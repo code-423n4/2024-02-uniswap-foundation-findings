@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This analysis provides an in-depth review of Uniswap's UniStaker contract, highlighting security, compliance, and areas for improvement. Our exhaustive review process, grounded in industry best practices and comprehensive checklists, has identified various findings ranging from compliance issues to optimization opportunities. The objective is to ensure the UniStaker contract is robust, secure, and efficient, enhancing its reliability within the DeFi ecosystem.
+This analysis provides an in-depth review of Uniswap's UniStaker contract, highlighting security, compliance, and areas for improvement. An exhaustive review process, grounded in industry best practices and comprehensive checklists, has identified various findings ranging from compliance issues to optimization opportunities. The objective is to ensure the UniStaker contract is robust, secure, and efficient, enhancing its reliability within the DeFi ecosystem.
 
 ## Key Findings
 
@@ -32,7 +32,7 @@ This analysis provides an in-depth review of Uniswap's UniStaker contract, highl
 
 ## Recommendations
 
-The UniStaker contract is a pivotal part of Uniswap's infrastructure. Addressing the identified issues will significantly improve its security, efficiency, and trustworthiness. We recommend:
+The UniStaker contract is a pivotal part of Uniswap's infrastructure. Addressing the identified issues will significantly improve its security, efficiency, and trustworthiness. I recommend:
 
 1. **EIP Compliance**: Ensure full compliance with relevant EIP standards to enhance functionality.
 2. **Role-Based Access Control**: Implement RBAC for granular administrative control.
@@ -44,7 +44,9 @@ The UniStaker contract is a pivotal part of Uniswap's infrastructure. Addressing
 
 ## Conclusion
 
-Our comprehensive review of Uniswap's UniStaker contract reveals several opportunities for improvement. Implementing these recommendations will not only bolster the contract's security and operational efficiency but also reinforce user confidence in its reliability. As the DeFi landscape continues to evolve, maintaining the highest standards of contract integrity is paramount. We advocate for a prioritized implementation of these enhancements, in collaboration with security experts and the broader community, to uphold Uniswap's reputation as a leader in decentralized finance.
+A comprehensive review of Uniswap's UniStaker contract reveals several opportunities for improvement. Implementing these recommendations will not only bolster the contract's security and operational efficiency but also reinforce user confidence in its reliability. As the DeFi landscape continues to evolve, maintaining the highest standards of contract integrity is paramount. I advocate for a prioritized implementation of these enhancements, in collaboration with security experts and the broader community, to uphold Uniswap's reputation as a leader in decentralized finance.
+
+
 
 ### Time spent:
 25 hours
