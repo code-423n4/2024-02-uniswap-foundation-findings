@@ -56,3 +56,51 @@ function claimFees(
 ```
 
 When the `admin` changes the `payoutAmount` to a smaller value, they ensure that there are fewer `fees` than the new amount, or they claim `fees` when there are excess `fees`.
+
+**[L-3] In the `_alterBeneficiary` functions, if the `deposit.balance` is `0`, there is no need to update reward**
+
+In the `_alterBeneficiary` function, if the `balance` is `0`, we could skip updating the `reward`. 
+However, there is currently no check for this.
+
+https://github.com/code-423n4/2024-02-uniswap-foundation/blob/491c7f63e5799d95a181be4a978b2f074dc219a5/src/UniStaker.sol#L704C12-L718
+```
+function _alterBeneficiary(
+    Deposit storage deposit,
+    DepositIdentifier _depositId,
+    address _newBeneficiary
+) internal {
+    _revertIfAddressZero(_newBeneficiary);
+    _checkpointGlobalReward();
+    _checkpointReward(deposit.beneficiary);
+    earningPower[deposit.beneficiary] -= deposit.balance;
+
+    _checkpointReward(_newBeneficiary);
+    emit BeneficiaryAltered(_depositId, deposit.beneficiary, _newBeneficiary);
+    deposit.beneficiary = _newBeneficiary;
+    earningPower[_newBeneficiary] += deposit.balance;
+}
+```
+
+We could change like below:
+```
+function _alterBeneficiary(
+    Deposit storage deposit,
+    DepositIdentifier _depositId,
+    address _newBeneficiary
+) internal {
+    _revertIfAddressZero(_newBeneficiary);
++    if (deposit.balance != 0) {
+        _checkpointGlobalReward();
+        _checkpointReward(deposit.beneficiary);
+        earningPower[deposit.beneficiary] -= deposit.balance;
+
+        _checkpointReward(_newBeneficiary);
+-        emit BeneficiaryAltered(_depositId, deposit.beneficiary, _newBeneficiary);
+-        deposit.beneficiary = _newBeneficiary;
+        earningPower[_newBeneficiary] += deposit.balance;
++    }
+
++    emit BeneficiaryAltered(_depositId, deposit.beneficiary, _newBeneficiary);
++    deposit.beneficiary = _newBeneficiary;
+}
+```
