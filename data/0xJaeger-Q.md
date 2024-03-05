@@ -13,7 +13,7 @@
 - Informational
 
 ## **Summary:**
-The protocol has two permit convenience functions which are vunerable to front-running, which is out-of-scope for this audit, however one suggestion to eliminate the risk is a whole is to add a simple allowance check, so user's transactions are not reverted but executed. 
+In the protocol, there are two permit convenience functions susceptible to front-running. It's important to note that addressing this vulnerability is currently out-of-scope for this audit. However, a suggested approach to mitigate this risk is to incorporate a straightforward allowance check. By implementing such a check, user transactions would be prevented from being reverted, ensuring they are executed as intended.
 
 
 [PermitAndStake](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L292-L303)
