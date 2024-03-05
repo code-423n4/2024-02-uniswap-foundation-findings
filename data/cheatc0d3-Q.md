@@ -1,4 +1,4 @@
-# 🌟 QA Report: Unistaker
+#  QA Report: Unistaker
 
 ## Summary
 
@@ -22,8 +22,10 @@
 - [L-18 Employ Two-step confirmation process for Important Address changes](#l-18-employ-two-step-confirmation-process-for-important-address-changes)
 - [L-19 Insufficient nonce validation](#l-19-insufficient-nonce-validation)
 - [L-20 Explicitly reset the beneficiaryRewardPerTokenCheckpoint after rewards are claimed](#l-20-explicitly-reset-the-beneficiaryrewardpertokencheckpoint-after-rewards-are-claimed)
+- [L-21 Enhance Event Logging](#l-21-enhance-event-logging)
 - [NC-01 Use ternary operator for better readability in lastTimeRewardDistributed function](#nc-01-use-ternary-operator-for-better-readability-in-lasttimerewarddistributed-function)
 - [NC-02 rewardPerTokenAccumulated can be rewritten for more clarity](#nc-02-rewardpertokenaccumulated-can-be-rewritten-for-more-clarity)
+- [NC-03 Event Emission Before State Change](#nc-03-event-emission-before-state-change)
 
 ## 🛠️ Approach
 
@@ -611,6 +613,26 @@ function _claimReward(address _beneficiary) internal {
 }
 ```
 
+## [L-21] Enhance Event Logging
+
+The RewardNotifierSet event should be extended to include the admin's address as an event parameter. And the function emitting this event would include the msg.sender in the emitted event:
+
+
+### LOC
+- [event RewardNotifierSet](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L213)
+
+### Instances
+
+#### 1. event RewardNotifierSet
+
+```solidity
+event RewardNotifierSet(address indexed account, bool isEnabled);
+```
+
+```solidity
+emit RewardNotifierSet(msg.sender, _rewardNotifier, _isEnabled);
+```
+
 ## [NC-01] Use ternary operator for better readability in lastTimeRewardDistributed function
 
 The `lastTimeRewardDistributed` function can be optimized for better readability by using a ternary operator, which simplifies the code without changing its logic. This is more of a stylistic preference that enhances code readability and conciseness.
@@ -655,6 +677,31 @@ function rewardPerTokenAccumulated() public view returns (uint256) {
 
     return rewardPerTokenAccumulatedCheckpoint + rewardsPerTokenSinceLastCheckpoint;
 }
+```
+
+## [NC-03] Event Emission Before State Change
+
+The emit RewardClaimed(_beneficiary, _reward); event is emitted before the actual transfer of rewards. In the standard practice of smart contract development, events are usually emitted after state changes to reflect the final state accurately. 
+
+### LOC
+- [function _claimReward](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L740C3-L750C4)
+
+### Instances
+
+#### 1. function _claimReward
+
+```solidity
+function _claimReward(address _beneficiary) internal {
+    _checkpointGlobalReward();
+    _checkpointReward(_beneficiary);
+
+    uint256 _reward = unclaimedRewardCheckpoint[_beneficiary];
+    if (_reward == 0) return;
+    unclaimedRewardCheckpoint[_beneficiary] = 0;
+    emit RewardClaimed(_beneficiary, _reward);
+
+    SafeERC20.safeTransfer(REWARD_TOKEN, _beneficiary, _reward);
+  }
 ```
 
 ## Conclusion
