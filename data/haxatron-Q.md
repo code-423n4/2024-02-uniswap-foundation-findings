@@ -148,9 +148,9 @@ In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` ar
 
 Consider adding zero address checks for these variables.
 
-## [R-01]: No-op operations should return early
+## [R-01]: No-op operations should return / revert early
 
-It might make sense to return early for certain no-op operations, before the events are emitted.
+It might make sense to return / revert early for certain no-op operations, before the events are emitted.
 
 - Staking more 0 tokens
 
@@ -177,7 +177,7 @@ It might make sense to return early for certain no-op operations, before the eve
 - Withdraw 0 tokens
 
 [UniStaker.sol#L723-L735](UniStaker.sol#L723-L735)
-```solidity
+```diff solidity
   function _withdraw(Deposit storage deposit, DepositIdentifier _depositId, uint256 _amount)
     internal
   {
@@ -216,7 +216,7 @@ It might make sense to return early for certain no-op operations, before the eve
 - When the new beneficiary is the same
 
 [UniStaker.sol#L704-L718](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L704-L718)
-```solidity
+```diff solidity
   function _alterBeneficiary(
     Deposit storage deposit,
     DepositIdentifier _depositId,
