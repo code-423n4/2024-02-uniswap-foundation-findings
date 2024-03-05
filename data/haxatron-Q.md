@@ -51,7 +51,9 @@ In the code above, there are checks to protect the caller from receiving less th
 ```
 In the fee claiming above, notice that to save gas, if the user specifies `amount0 == protocolFees.token0`, we deduct 1 from `amount0` and if `amount1 == protocolFees.token1` we also deduct 1 from `amount1`. However, when `amount0` and `amount1` is returned back to the original `claimFees` function it will result in `_amount0 < _amount0Requested` or `_amount1 < _amount1Requested`, which will cause the entire `claimFees` function to revert.
 
-Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from doing so. This unexpected behaviour can cause users to waste gas and even lose the auction. It is recommended that this behaviour should be documented.
+Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from doing so. This unexpected behaviour can cause users to waste gas and even lose the auction. 
+
+It is recommended that this behaviour should be documented.
 
 ## [L-02]: User can specify `_pool` to an address of a contract they own.
 
@@ -80,7 +82,37 @@ In the `claimFees`, there is no validation whether the `_pool` specified is real
 ```
 A user can specify `_pool` and specify an arbitrary `_amount0Requested` and `_amount1Requested` to a contract they own, where the `collectProtocol` function doesn't do anything and returns an `_amount0` and `_amount1` lesser than `_amount0Requested` and `_amount1Requested` to pass the revert check. This can cause the `_amount0` and `_amount1` variables `FeesClaimed` event and the return value of the `claimFees` function to be an extremely large value specified by the user and potentially cause errors in off-chain systems that log `FeesClaimed` event or integrators that call the `claimFees` function.
 
-## [L-03]: Missing zero address check for certain variables in `V3FactoryOwner.sol` uncaught in bot report.
+Consider either documenting this to prevent any integrators from making mistakes here or adding an allowlist of valid Uniswap V3 pools.
+
+## [L-03]: No validation of `payoutAmount` against a minimum
+
+In [V3FactoryOwner.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol), the `payoutAmount` variable is the amount paid by the user to call the `claimFees` function to claim fees from the Uniswap V3 pool. This `payoutAmount` is sent to the `UniStaker.sol` contract to be distributed to beneficiaries via `notifyRewardAmount`
+
+A known issue in the `notifyRewardAmount` is that a misbehaving reward notifier can frequently call this function with tiny reward amounts.
+
+[UniStaker.sol#L562-L565](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L562-L565)
+```solidity
+  /// 1. A misbehaving contract could grief stakers by frequently notifying this contract of tiny
+  ///    rewards, thereby continuously stretching out the time duration over which real rewards are
+  ///    distributed. It is required that reward notifiers supply reasonable rewards at reasonable
+  ///    intervals.
+```
+
+However, when setting the `payoutAmount`, there is only a check for a zero value but there isn't a check against a minimum amount.
+```solidity
+  function setPayoutAmount(uint256 _newPayoutAmount) external {
+    _revertIfNotAdmin();
+    if (_newPayoutAmount == 0) revert V3FactoryOwner__InvalidPayoutAmount();
+    emit PayoutAmountSet(payoutAmount, _newPayoutAmount);
+    payoutAmount = _newPayoutAmount;
+  }
+```
+
+In case the DAO sets too low of a `payoutAmount`, it would be possible to face the problem outlined in the comment above.
+
+Therefore, it is recommended to have a constant `MIN_PAYOUT_AMOUNT` in the contract and check against this value when setting the `payoutAmount`.
+
+## [L-04]: Missing zero address check for certain variables in `V3FactoryOwner.sol` uncaught in bot report.
 
 In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted by the bot report in bot finding [L-03](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/bot-report.md#l-03-missing-zero-address-check-in-constructor)
 
@@ -107,6 +139,8 @@ In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted b
   }
 ```
 In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` are missing the zero address checks.
+
+Consider adding zero address checks for these variables.
 
 ## [NC-01]: Part of NatSpec comment in `DelegationSurrogate.sol` contains multiple typos and is hard to read
 
