@@ -53,7 +53,7 @@ In the fee claiming above, notice that to save gas, if the user specifies `amoun
 
  However, when `amount0` and `amount1` is returned back to the original `claimFees` function it will result in `_amount0 < _amount0Requested` or `_amount1 < _amount1Requested`, which will cause the entire `claimFees` function to revert.
 
-Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always prevent them from doing so. This unexpected behaviour can cause users to waste gas and even lose the auction. 
+Therefore, if the user specifies either `_amount0Requested` or `_amount1Requested` to try and claim full protocol fees for that specific pool, they will never be able to do so because the `collectProtocol` function will always return 1 less for the `_amount0Requested` or `_amount1Requested` which will cause the following check to revert. This unexpected behaviour can cause users to waste gas and even lose the auction. 
 
 It is recommended that this behaviour should be documented.
 
