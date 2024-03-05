@@ -1,0 +1,8 @@
+{
+  "contest": 336,
+  "handle": "marchev",
+  "risk": "2",
+  "title": "Claiming all fees results in unexpected revert",
+  "issueId": 379,
+  "issueUrl": "https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/379"
+}
