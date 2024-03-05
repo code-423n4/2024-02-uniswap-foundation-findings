@@ -29,3 +29,8 @@ _pool.collectProtocol(_recipient, _amount0Requested -1, _amount1Requested -1);
       revert V3FactoryOwner__InsufficientFeesCollected();
     }
 ```
+
+### L-03 Approvals are not cleared when a delegatee is changed
+Deposit owner can choose to change the address to which he delegates his governance power by calling `alterDelegatee`. A surrogate contract is [deployed](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/491c7f63e5799d95a181be4a978b2f074dc219a5/src/UniStaker.sol#L609-L612) (or an existing one is fetched) for the new delegatee. The new surrogate contract [approve](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/491c7f63e5799d95a181be4a978b2f074dc219a5/src/DelegationSurrogate.sol#L27) UniStaker as spender. But the approval from old surrogate to UniStaker contract is not cleared. This may became problematic in case of using a different UniStaker in the future. 
+
+Consider resetting approval when transferring stakeToken from one surrogate to another.
