@@ -103,6 +103,8 @@ A known issue in the `notifyRewardAmount` is that a misbehaving reward notifier 
 ```
 
 However, when setting the `payoutAmount`, there is only a check for a zero value but there isn't a check against a minimum amount.
+
+[V3FactoryOwner.sol#L119-L124](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/V3FactoryOwner.sol#L119-L124)
 ```solidity
   function setPayoutAmount(uint256 _newPayoutAmount) external {
     _revertIfNotAdmin();
@@ -145,6 +147,93 @@ In `V3FactoryOwner.sol`, there are missing zero address checks not highlighted b
 In particular, the variables `_factory`, `_payoutToken` and `_rewardReceiver` are missing the zero address checks.
 
 Consider adding zero address checks for these variables.
+
+## [R-01]: No-op operations should return early
+
+It might make sense to return early for certain no-op operations, before the events are emitted.
+
+- Staking more 0 tokens
+
+[UniStaker.sol#L669-L683](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L669-L683)
+```diff solidity
+  function _stakeMore(Deposit storage deposit, DepositIdentifier _depositId, uint256 _amount)
+    internal
+  {
++   if (amount == 0) return;
+    _checkpointGlobalReward();
+    _checkpointReward(deposit.beneficiary);
+
+    DelegationSurrogate _surrogate = surrogates[deposit.delegatee];
+
+    totalStaked += _amount;
+    depositorTotalStaked[deposit.owner] += _amount;
+    earningPower[deposit.beneficiary] += _amount;
+    deposit.balance += _amount;
+    _stakeTokenSafeTransferFrom(deposit.owner, address(_surrogate), _amount);
+    emit StakeDeposited(deposit.owner, _depositId, _amount, deposit.balance);
+  }
+```
+
+- Withdraw 0 tokens
+
+[UniStaker.sol#L723-L735](UniStaker.sol#L723-L735)
+```solidity
+  function _withdraw(Deposit storage deposit, DepositIdentifier _depositId, uint256 _amount)
+    internal
+  {
++   if (amount == 0) return;
+    _checkpointGlobalReward();
+    _checkpointReward(deposit.beneficiary);
+
+    deposit.balance -= _amount; // overflow prevents withdrawing more than balance
+    totalStaked -= _amount;
+    depositorTotalStaked[deposit.owner] -= _amount;
+    earningPower[deposit.beneficiary] -= _amount;
+    _stakeTokenSafeTransferFrom(address(surrogates[deposit.delegatee]), deposit.owner, _amount);
+    emit StakeWithdrawn(_depositId, _amount, deposit.balance);
+  }
+```
+
+- When the new delegatee is the same
+
+[UniStaker.sol#L685-L699](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L685-L699)
+```diff solidity
+  function _alterDelegatee(
+    Deposit storage deposit,
+    DepositIdentifier _depositId,
+    address _newDelegatee
+  ) internal {
+    _revertIfAddressZero(_newDelegatee);
++   if (deposit.delegatee == _newDelegatee) return;
+    DelegationSurrogate _oldSurrogate = surrogates[deposit.delegatee];
+    emit DelegateeAltered(_depositId, deposit.delegatee, _newDelegatee);
+    deposit.delegatee = _newDelegatee;
+    DelegationSurrogate _newSurrogate = _fetchOrDeploySurrogate(_newDelegatee);
+    _stakeTokenSafeTransferFrom(address(_oldSurrogate), address(_newSurrogate), deposit.balance);
+  } 
+```
+
+- When the new beneficiary is the same
+
+[UniStaker.sol#L704-L718](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/UniStaker.sol#L704-L718)
+```solidity
+  function _alterBeneficiary(
+    Deposit storage deposit,
+    DepositIdentifier _depositId,
+    address _newBeneficiary
+  ) internal {
+    _revertIfAddressZero(_newBeneficiary);
++   if (deposit.beneficiary == _newBeneficiary) return;
+    _checkpointGlobalReward();
+    _checkpointReward(deposit.beneficiary);
+    earningPower[deposit.beneficiary] -= deposit.balance;
+
+    _checkpointReward(_newBeneficiary);
+    emit BeneficiaryAltered(_depositId, deposit.beneficiary, _newBeneficiary);
+    deposit.beneficiary = _newBeneficiary;
+    earningPower[_newBeneficiary] += deposit.balance;
+  }
+```
 
 ## [NC-01]: Part of NatSpec comment in `DelegationSurrogate.sol` contains multiple typos and is hard to read
 
