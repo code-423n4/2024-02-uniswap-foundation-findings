@@ -278,7 +278,7 @@ There are some typos in one line of the NatSpec comment in `DelegationSurrogate.
 
 Firstly, there is a double spacing in between `appropriate` and `surrogate—or`.
 
-Secondly, the introduction of random hyphens in the sentence such `surrogate—or` and `behalf—users` which makes it hard to read. These hyphens can be misinterpreted as compound words.
+Secondly, the introduction of random hyphens in the sentence such `surrogate—or` and `behalf—users` which makes it hard to read. These hyphenated words can be misinterpreted as compound words.
 
 [DelegationSurrogate.sol#L15](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/main/src/DelegationSurrogate.sol#L15)
 ```solidity
