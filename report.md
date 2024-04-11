@@ -106,7 +106,7 @@ For this audit, 31 reports were submitted by wardens detailing low risk and non-
 
 *The following wardens also submitted reports: [DadeKuma](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/380), [Trust](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/331), [0xlemon](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/255), [Shield](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/169), [lsaudit](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/168), [Breeje](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/107), [Al-Qa-qa](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/90), [osmanozdemir1](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/45), [SpicyMeatball](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/8), [AlexCzm](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/415), [peanuts](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/414), [0xdice91](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/413), [gesha17](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/410), [Aamir](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/409), [marchev](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/379), [kutugu](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/372), [haxatron](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/368), [cheatc0d3](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/355), [visualbits](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/345), [radev\_sw](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/237), [imare](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/230), [nnez](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/201), [ZanyBonzy](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/151), [PetarTolev](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/141), [BAHOZ](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/130), [Bauchibred](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/115), [jesjupyter](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/99), [twicek](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/73), [Fassi\_Security](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/67), and [merlinboii](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/59).*
 
-##  Adapting UniStaker test infrastructure to UNI token
+## [01] Adapting UniStaker test infrastructure to UNI token
 
 Current testing infrastructure for UniStaker includes fuzz and integration tests which employ mocks for the governance token, in particular [test/mocks/MockERC20Votes.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/mocks/MockERC20Votes.sol). The sponsors have confirmed in the Discord audit channel though that exclusively the [currently deployed UNI token](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code) will be used as the governance token. In light of that information, it should be noted that `MockERC20Votes.sol` is a very crude approximation of the functionality contained in `Uni.sol`. In particular, the latter:
 
@@ -129,7 +129,7 @@ While these activities have not allowed us to catch any critical vulnerabilities
 
 All of the added/modified files are available in [this gist](https://gist.github.com/kuprumion/b7b0e03ea52ff925d0f9a9a4dcd7116f).
 
-## A port of `Uni.sol` from Solidity 0.5.16 to Solidity 0.8.23
+## [02] A port of `Uni.sol` from Solidity 0.5.16 to Solidity 0.8.23
 
 This is the simplest of undertaken activities, which amounted in fixing a couple of incompatibilities between the compiler versions, disabling some checks which were not compatible with the current test suite (like minting restrictions), and adding the `DOMAIN_SEPARATOR()` function required by tests. The changes between the [deployed UNI token](https://etherscan.io/token/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code) and the adaptation are summarized in the diff below:
 
@@ -206,7 +206,7 @@ This is the simplest of undertaken activities, which amounted in fixing a couple
          uint256 chainId;
 ```
 
-## Adjustment of the tests in `UniStaker.t.sol` to use `Uni.sol` instead of `MockERC20Votes.sol`
+## [03] Adjustment of the tests in `UniStaker.t.sol` to use `Uni.sol` instead of `MockERC20Votes.sol`
 
 We don't list here the whole diff, only the most important parts of it; also omitting duplicate changes in multiple places.
 
@@ -294,7 +294,7 @@ index 89124f8..22e0534 100644
    }
 ```
 
-## Additional assertions to track voting power changes in `Uni`
+## [04] Additional assertions to track voting power changes in `Uni`
 
 As already explained above, voting power is a very important aspect of `UNI` token, which, on the one hand, is influenced by the introduction of `UniStaker` (via surrogate delegations), and on the other hand voting power changes are not tracked at all in the current test suite. We have added corresponding assertions to a few of the current tests; the rest of the test suite needs to be examined, and assertions added as well; we leave this to UniSwap developers.
 
@@ -322,7 +322,7 @@ An example of one of the modified tests is below:
    }
  ```
 
-##  Add `Uni.handler.sol`, the wrapper around `Uni`, allowing to call its functions from fuzz/invariant tests
+## [05] Add `Uni.handler.sol`, the wrapper around `Uni`, allowing to call its functions from fuzz/invariant tests
 
 Similar to the already present [test/helpers/UniStaker.handler.sol](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/helpers/UniStaker.handler.sol), we have implemented the lightweight `test/helpers/Uni.handler.sol`, which allows to call most crucial for testing user-facing functions of `UNI`.
 
@@ -405,7 +405,7 @@ contract UniHandler is CommonBase, StdCheats, StdUtils {
 }
 ```
 
-## Necessary adaptations to `UniStaker.handler.sol`
+## [06] Necessary adaptations to `UniStaker.handler.sol`
 
 We had to perform necessary adaptations to `UniStaker.handler.sol`, to integrate `UNI` and avoid failing tests due to the usage of a low-level foundry function; the changes are outlined below:
 
@@ -462,7 +462,7 @@ index f8fe335..9622571 100644
 
 In particular, the usage of the low-level Foundry's `deal` function, which modifies in place the storage of an ERC20 contract, is incompatible with `UNI`'s vote accounting mechanism and leads to underflows in vote computations with the error thrown `Uni::_moveVotes: vote amount underflows`.
 
-## Extensions to `UniStaker.invariants.t.sol` to track an additional invariant, `invariant_Total_stake_plus_direct_delegations_equals_current_votes`
+## [07] Extensions to `UniStaker.invariants.t.sol` to track an additional invariant, `invariant_Total_stake_plus_direct_delegations_equals_current_votes`
 
 We have extended `UniStaker.invariants.t.sol` with an additional invariant that asserts that on all changes, either via `UniStaker` or via direct user delegations via `UNI`, the total stake via `UniStaker` summed up with direct delegations, gives the total voting power for all delegates. The changes are outlined below:
 
@@ -577,7 +577,7 @@ index 4c80ce1..5148548 100644
 
 </details>
 
-## Necessary changes to `AddressSet.sol`
+## [08] Necessary changes to `AddressSet.sol`
 
 In order to be able to track external user delegations, we had to adapt slightly the helper library `AddressSet.sol`:
 
@@ -620,7 +620,7 @@ index 83327a7..323ed2c 100644
      }
 ```
 
-## Necessary changes to `foundry.toml`
+## [09] Necessary changes to `foundry.toml`
 
 We had to introduce a few changes to `foundry.toml`. On the one hand, a couple of dependencies were missing, so we've introduced them for the project to compile. On the other hand, the fuzzing/invariant test settings have been in our opinion very low, so we increased the number or the depth of the runs in order to increase the coverage. 
 
@@ -671,7 +671,7 @@ Logs:
 
 The reason for the test failure was that due to an increased number of alternatives tried, Foundry's fuzz testing engine picked admin's address to mint to, and thus [this assertion](https://github.com/code-423n4/2024-02-uniswap-foundation/blob/5a2761c8277541a24bc551fbd624413b384bea94/test/UniStaker.t.sol#L414) failed as a result. We have repaired the failing test by disallowing to mint governance tokens to admin's address.
 
-## Applying the changes to the UniStaker testing infrastructure, and running the tests
+## [10] Applying the changes to the UniStaker testing infrastructure, and running the tests
 
 To correctly set up the environment and apply the modifications, do the following:
 
@@ -701,7 +701,7 @@ To execute and examine the working of the newly introduced invariant, we recomme
 forge test -vvvv --nmp '*integration*' --match-test invariant_Total_stake_plus_direct_delegations_equals_current_votes
 ```
 
-## [Small stakes reward griefing due to rounding, and actions by anyone with nothing at stake](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/388)
+## [[11] Small stakes reward griefing due to rounding, and actions by anyone with nothing at stake](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/388)
 
 *Note: At the judge’s request [here](https://github.com/code-423n4/2024-02-uniswap-foundation-findings/issues/299#issuecomment-1997457762), this downgraded issue from the same warden has been included in this report for completeness.*
 
